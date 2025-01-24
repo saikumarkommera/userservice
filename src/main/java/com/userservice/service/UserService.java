@@ -6,11 +6,6 @@ import com.userservice.user.UserDTO;
 import com.userservice.user.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,34 +14,38 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository repository;
     private final UserMapper mapper;
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private final RedisService redis;
 
-    @CachePut(value = "user" , key = "#result.id")
     public User createNewUser(UserDTO dto) {
         User user = this.repository.save(mapper.toUser(dto));
-        logger.info("User got created with Id : "+user.getId());
+        log.info("User got created with Id : "+user.getId());
         return user;
     }
 
-    @Cacheable(value = "user" , key = "#id")
     public User getUser(int id) throws Exception {
+        Object userObj = this.redis.get(String.valueOf(id));
+        if(userObj!=null){
+            log.info("Gor user from cache");
+            return (User)userObj;
+        }
         User user = this.repository.findById(id).orElseThrow(() -> new RuntimeException("No User Found..!"));
-        logger.info("Got user from DB : "+user);
+        log.info("Got user from DB : "+user);
+        this.redis.set(String.valueOf(id),user,3000l);
         return user;
     }
 
-    @CacheEvict(value = "user",key = "#id")
     public void deleteUser(int id) {
         this.repository.deleteById(id);
-        logger.info("User deleted with Id : "+user.getId());
+        log.info("User deleted with Id : "+id);
     }
 
-    @CachePut(value = "user" , key = "#result.id")
     public User updateUser(int id,UserDTO dto) {
         User user = this.repository.findById(id).orElseThrow(()-> new RuntimeException("User not found..!"));
         user.setEmail(dto.email());
         user.setName(dto.name());
-        logger.info("updating user with id : "+user.getId()+" in db");
-        return this.repository.save(user);
+        log.info("updating user with id : "+user.getId()+" in db");
+        User updatedUser = this.repository.save(user);
+        this.redis.set(String.valueOf(updatedUser.getId()),updatedUser,3000l);
+        return updatedUser;
     }
 }
