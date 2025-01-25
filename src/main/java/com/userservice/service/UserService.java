@@ -35,7 +35,9 @@ public class UserService {
     }
 
     public void deleteUser(int id) {
+        User user = this.repository.findById(id).orElseThrow(()-> new RuntimeException("User not found..!"));
         this.repository.deleteById(id);
+        this.redis.delete(String.valueOf(user.getId()));
         log.info("User deleted with Id : "+id);
     }
 

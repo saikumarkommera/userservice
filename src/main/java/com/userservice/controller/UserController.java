@@ -1,16 +1,21 @@
 package com.userservice.controller;
 
+import com.userservice.service.OrderService;
+import com.userservice.service.ProductService;
 import com.userservice.service.UserService;
-import com.userservice.user.User;
-import com.userservice.user.UserDTO;
-import com.userservice.user.UserMapper;
+import com.userservice.user.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
@@ -18,9 +23,23 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper mapper;
+    private final ProductService prodService;
+    private final OrderService orderService;
+
+    @GetMapping("/products")
+    public List<Product> getProducts() {
+        return prodService.fetchProducts();
+    }
+
+    @PostMapping("/orders/place")
+    public ResponseEntity<String> placeOrder(@RequestBody OrderRequest request) {
+        Order newOrder = this.orderService.placeOrder(request);
+        return newOrder != null ? ResponseEntity.ok().body("Order got placed Successfully")
+                : ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while creating order");
+    }
 
     @PostMapping("/createUser")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO dto){
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO dto) {
         User user = this.userService.createNewUser(dto);
         return ResponseEntity.ok(mapper.toUserDTO(user));
     }
@@ -32,8 +51,8 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<UserDTO> updateUserById(@PathVariable("id") int id ,@RequestBody UserDTO dto) {
-        User user = this.userService.updateUser(id,dto);
+    public ResponseEntity<UserDTO> updateUserById(@PathVariable("id") int id, @RequestBody UserDTO dto) {
+        User user = this.userService.updateUser(id, dto);
         return ResponseEntity.ok(mapper.toUserDTO(user));
     }
 

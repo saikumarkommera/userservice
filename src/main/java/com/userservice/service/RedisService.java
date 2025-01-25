@@ -18,7 +18,7 @@ public class RedisService {
         try {
             return template.opsForValue().get(key);
         } catch (Exception e) {
-            log.error("Exception occured while retriving data from acache : ", e);
+            log.error("Exception occured while retriving data from cache : ", e);
             return null;
         }
     }
@@ -30,6 +30,11 @@ public class RedisService {
             log.error("Exception occured while storing data from acache : ", e);
         }
 
+    }
+
+    public void delete(String key){
+        this.template.delete(key);
+        log.info("User info got removed from cache successfully");
     }
 
 }
