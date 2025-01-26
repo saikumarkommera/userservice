@@ -1,5 +1,6 @@
 package com.userservice.controller;
 
+import com.userservice.exception.UserException;
 import com.userservice.service.OrderService;
 import com.userservice.service.ProductService;
 import com.userservice.service.UserService;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -27,8 +29,13 @@ public class UserController {
     private final OrderService orderService;
 
     @GetMapping("/products")
-    public List<Product> getProducts() {
-        return prodService.fetchProducts();
+    public ResponseEntity<List<Product>> getProducts() {
+        List<Product> products = prodService.fetchProducts();
+        if(products.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
+        }else{
+            return ResponseEntity.ok(products);
+        }
     }
 
     @PostMapping("/orders/place")
@@ -45,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") int id) throws Exception {
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") int id) {
         User user = this.userService.getUser(id);
         return ResponseEntity.ok(mapper.toUserDTO(user));
     }

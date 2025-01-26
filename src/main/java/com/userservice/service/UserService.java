@@ -1,5 +1,6 @@
 package com.userservice.service;
 
+import com.userservice.exception.UserException;
 import com.userservice.repository.UserRepository;
 import com.userservice.user.User;
 import com.userservice.user.UserDTO;
@@ -22,27 +23,27 @@ public class UserService {
         return user;
     }
 
-    public User getUser(int id) throws Exception {
+    public User getUser(int id) {
         Object userObj = this.redis.get(String.valueOf(id));
         if(userObj!=null){
             log.info("Gor user from cache");
             return (User)userObj;
         }
-        User user = this.repository.findById(id).orElseThrow(() -> new RuntimeException("No User Found..!"));
+        User user = this.repository.findById(id).orElseThrow(() -> new UserException("No User Found with id :"+id));
         log.info("Got user from DB : "+user);
         this.redis.set(String.valueOf(id),user,3000l);
         return user;
     }
 
-    public void deleteUser(int id) {
-        User user = this.repository.findById(id).orElseThrow(()-> new RuntimeException("User not found..!"));
+    public void deleteUser(int id){
+        User user = this.repository.findById(id).orElseThrow(()-> new UserException("No User Found with id :"+id));
         this.repository.deleteById(id);
         this.redis.delete(String.valueOf(user.getId()));
         log.info("User deleted with Id : "+id);
     }
 
     public User updateUser(int id,UserDTO dto) {
-        User user = this.repository.findById(id).orElseThrow(()-> new RuntimeException("User not found..!"));
+        User user = this.repository.findById(id).orElseThrow(()-> new UserException("No User Found with id :"+id));
         user.setEmail(dto.email());
         user.setName(dto.name());
         log.info("updating user with id : "+user.getId()+" in db");
