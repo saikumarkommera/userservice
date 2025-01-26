@@ -97,3 +97,70 @@ Code architechture :
         ├── templates
         └── application.properties
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Features Implemented
+
+1. MySQL Database
+   
+   -> Used to store user and order data.
+
+   -> User table stores user details like id, name, and email.
+
+   -> Order table stores order details like id, userId, productId, quantity, and orderAmount.
+
+3. Redis Caching
+ 
+   -> Used to cache frequently accessed data (e.g., user details and product details).
+
+   ->Improves performance by reducing database calls.
+
+   ->Cached data has a TTL (Time-to-Live) of 3000 seconds.
+
+
+3. Resilience4j (Retry and Circuit Breaker)
+   
+   -> Retry Mechanism: Retries failed API calls to the external product API.
+
+
+   -> Circuit Breaker: Prevents cascading failures by opening the circuit when the external API is unavailable.
+
+
+   -> Fallback methods are implemented to handle failures gracefully.
+
+
+4. ExecutorService for Asynchronous Processing
+
+   -> Used in the OrderService to process orders asynchronously.
+
+
+   -> Improves performance by offloading order processing to a separate thread.
+
+
+5. External API Integration
+   
+   -> Fetches product data from the open-source API: https://dummyjson.com/products.
+
+
+   -> Filters products based on rating > 3.5 and stock > 0.
+
+
+6. Order Flow
+   
+   -> When a user places an order:
+
+
+    -> The system checks if the user exists in the database.
+
+
+   -> Fetches the product details from the external API.
+
+
+   -> Validates the product stock.
+
+
+   -> If the stock is sufficient, the order is processed asynchronously using ExecutorService.
+
+
+    -> The order details are saved in the database and returned to the user.
+
