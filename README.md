@@ -96,12 +96,4 @@ Code architechture :
         ├── static
         ├── templates
         └── application.properties
-    └── test
-    └── java
-        └── com
-            └── userservice
-                ├── controller
-                │   └── UserControllerTest.java
-                └── service
-                    └── UserServiceTest.java
 
