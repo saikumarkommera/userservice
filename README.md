@@ -35,29 +35,29 @@ Setup Instructions:
 
 2. Set Up MySQL
 
--> Open MySQL Workbench and create a database named "users"
+   -> Open MySQL Workbench and create a database named "users"
 
--> Update the application.properties file with your MySQL username and password:
+   -> Update the application.properties file with your MySQL username and password:
 
-spring.datasource.url=jdbc:mysql://localhost:3306/users
+       spring.datasource.url=jdbc:mysql://localhost:3306/users
 
-spring.datasource.username=your-username
+       spring.datasource.username=your-username
 
-spring.datasource.password=your-password
+       spring.datasource.password=your-password
 
 3. Set Up Redis:
 
--> Install Redis on your system.
+   -> Install Redis on your system.
 
--> Start the Redis server:
+   -> Start the Redis server:
 
-commands : 
+   commands : 
 
-sudo service redis-server start
+          sudo service redis-server start
 
-redis-cli
+          redis-cli
 
-monitor
+          monitor
 
 4. Run the Project
 
