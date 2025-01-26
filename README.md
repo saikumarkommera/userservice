@@ -61,5 +61,47 @@ monitor
 
 4. Run the Project
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Code architechture :
+
+
+    src
+
+    ── main
+
+    ├── java
+    │   └── com
+    │       └── userservice
+    │           ├── config
+    │           │   ├── AppConfig.java
+    │           │   └── RedisConfig.java
+    │           ├── controller
+    │           │   └── UserController.java
+    │           ├── exception
+    │           │   ├── ProductException.java
+    │           │   ├── UserException.java
+    │           │   └── UserServiceException.java
+    │           ├── repository
+    │           │   ├── OrderRepository.java
+    │           │   └── UserRepository.java
+    │           ├── service
+    │           │   ├── OrderService.java
+    │           │   ├── ProductService.java
+    │           │   ├── RedisService.java
+    │           │   └── UserService.java
+    │           ├── user
+    │           │   └── UserServiceApplication.java
+    └── resources
+        ├── static
+        ├── templates
+        └── application.properties
+    └── test
+    └── java
+        └── com
+            └── userservice
+                ├── controller
+                │   └── UserControllerTest.java
+                └── service
+                    └── UserServiceTest.java
 
