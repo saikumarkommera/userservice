@@ -1,15 +1,11 @@
 package com.userservice.controller;
 
-import com.userservice.exception.UserException;
 import com.userservice.service.OrderService;
 import com.userservice.service.ProductService;
 import com.userservice.service.UserService;
 import com.userservice.user.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

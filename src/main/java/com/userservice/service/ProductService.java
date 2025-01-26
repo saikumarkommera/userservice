@@ -3,7 +3,6 @@ package com.userservice.service;
 import com.userservice.exception.ProductException;
 import com.userservice.user.Product;
 import com.userservice.user.ProductResponse;
-import com.userservice.user.User;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;

@@ -7,7 +7,6 @@ import com.userservice.repository.UserRepository;
 import com.userservice.user.Order;
 import com.userservice.user.OrderRequest;
 import com.userservice.user.Product;
-import com.userservice.user.User;
 import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
