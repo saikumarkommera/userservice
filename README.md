@@ -1,7 +1,9 @@
 User Service Project
+
 This project is a User Service built with Spring Boot. It allows users to register themselves, fetch their details by ID, update their details, and delete their account. Additionally, it provides APIs to fetch products from an external API and place orders.
 
 Table of Contents
+
 1.Prerequisites
 
 2.Setup Instructions
