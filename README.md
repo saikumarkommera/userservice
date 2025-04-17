@@ -145,7 +145,7 @@ Features Implemented
    -> Filters products based on rating > 3.5 and stock > 0.
 
 
-6. Order Flow
+6. Last step :: Order Flow
    
    -> When a user places an order:
 
