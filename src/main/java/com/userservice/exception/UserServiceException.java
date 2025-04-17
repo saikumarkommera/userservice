@@ -11,7 +11,7 @@ public class UserServiceException {
 
     @ExceptionHandler(ProductException.class)
     public ResponseEntity<String> handleCustNoFountException(ProductException ex){
-        log.debug("Error occured ,  ProductException is being thrown");
+        log.debug("Error occured ,  ProductException thrown");
        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
