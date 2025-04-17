@@ -11,13 +11,13 @@ public class UserServiceException {
 
     @ExceptionHandler(ProductException.class)
     public ResponseEntity<String> handleCustNoFountException(ProductException ex){
-        log.debug("ProductException thrown");
+        log.debug("Error occured ,  ProductException thrown");
        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
     @ExceptionHandler(UserException.class)
     public ResponseEntity<String> handleUserExceptionException(UserException ex){
-        log.debug("UserException thrown");
+        log.debug("Error occured , UserException thrown");
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
